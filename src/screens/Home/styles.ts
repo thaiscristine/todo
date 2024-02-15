@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { PixelRatio, StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
     container: {
@@ -46,15 +46,37 @@ export const styles = StyleSheet.create({
         paddingTop: 24,
         paddingBottom: 16
     },
-    totalTasksLabel: {
-        color: '#6b6b6b',
-        fontSize: 16,
-        marginTop: 5
+    column: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        color: '#fff',
+        fontWeight: 'bold'
     },
-    totalDoneLabel: {
-        color: '#6b6b6b',
+    numberTasks: {
+        width: 28,
+        height: 24,
+        borderRadius: 24 / 2,
+        backgroundColor: '#1E6F9F',
+        marginLeft: 8,
+        marginTop: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    numberDone: {
+        width: 28,
+        height: 24,
+        borderRadius: 24 / 2,
+        backgroundColor: '#8284FA',
+        marginLeft: 8,
+        marginTop: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    totalsLabel: {
+        color: '#fff',
         fontSize: 16,
-        marginTop: 5
+        marginTop: 5,
+        fontWeight: 'bold'
     },
     dividerView: {
         width: '100%',
@@ -66,5 +88,4 @@ export const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#6b6b6b',
     }
-
 })

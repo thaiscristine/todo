@@ -4,29 +4,53 @@ import { Button } from '../../components/Button'
 import { TaskItem } from '../../components/TaskItem'
 import { styles } from './styles'
 
+type TaskItem = {
+  title: string;
+  done: boolean;
+}
+
 export function Home(){
 
-  const [tasks, setTasks] = useState<string[]>([])
+  const [tasks, setTasks] = useState<TaskItem[]>([{ title: 'Task 1', done: true}, { title: 'Task 2', done: true}])
   const [taskItem, setTaskItem] = useState('')
 
+  const totalTasksDone = tasks.filter(task => task.done).length;
+
   function handleTaskItemkAdd(){
-    if(tasks.includes(taskItem)){
+    const isTaskDuplicated = tasks.some(task => task.title === taskItem)
+
+    if (isTaskDuplicated) {
       return Alert.alert('Duplicated task', `This task already exists in the list`)
-    }   
-    setTasks(prevState => [...prevState, taskItem])
-    setTaskItem('')
+    }
+
+    const newTask: TaskItem = {
+      title: taskItem,
+      done: false
+    };
+
+    setTasks(prevState => [...tasks, newTask]);
+    setTaskItem('');
   }
 
-  function handleTaskItemRemove(task: string) {
+  function handleMarkTaskItemDone(taskTitle: string) {
+    setTasks(prevState => prevState.map(taskItem => {
+      if (taskItem.title === taskTitle) {
+        taskItem.done = !taskItem.done;
+      }
+      return taskItem;
+    }))
+  }
+
+  function handleTaskItemRemove(taskTitle: string) {
     
-    Alert.alert('Remove task', `Do you want to remove the task "${task}"?`, [
+    Alert.alert('Remove task', `Do you want to remove the task "${taskTitle}"?`, [
       {
         text: 'No',
         style: 'cancel'
       },
       {
         text: 'Yes',
-        onPress: () => setTasks(prevState => prevState.filter(taskItem => taskItem !== task))
+        onPress: () => setTasks(prevState => prevState.filter(taskItem => taskItem.title !== taskTitle))
       }
     ])
   }
@@ -53,8 +77,18 @@ export function Home(){
       </View>
 
       <View style={styles.listStatus}>
-        <Text style={styles.totalTasksLabel}>Tasks {tasks.length}</Text>
-        <Text style={styles.totalDoneLabel}>Done</Text>
+        <View style={styles.column}>
+          <Text style={styles.totalsLabel}>Tasks</Text>
+          <View style={styles.numberTasks}>
+            <Text style={styles.column}>{tasks.length}</Text>
+          </View>
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.totalsLabel}>Done</Text>
+          <View style={styles.numberDone}>
+            <Text style={styles.column}>{totalTasksDone}</Text>
+          </View>
+        </View>
       </View>
 
       <View style={styles.dividerView}>
@@ -67,10 +101,10 @@ export function Home(){
         data={tasks}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <TaskItem 
-            key={index} 
-            name={item} 
-            onRemove={() => handleTaskItemRemove(item)} 
+          <TaskItem
+            item={item}
+            onRemove={() => handleTaskItemRemove(item.title)}
+            onMarkDone={() => handleMarkTaskItemDone(item.title)}
           /> 
         )} 
         ListEmptyComponent={() => (

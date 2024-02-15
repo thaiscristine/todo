@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container :{
@@ -10,11 +10,14 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 5,
     },
-    name: {
-        flex: 1,
+    title: {
         color: '#fff',
-        fontSize: 16,
-        marginLeft: 12
+        fontSize: 18,
+    },
+    titleDone: {
+        color: '#fff',
+        fontSize: 18,
+        textDecorationLine: 'line-through'
     },
     buttonCheckTask :{
         borderRadius: 5,

@@ -1,29 +1,35 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from './styles'
-import { Button } from '../Button'
 
 type Props = {
-  name: string;
+  item: {
+    title: string;
+    done: boolean;
+  };
   onRemove: () => void;
+  onMarkDone: () => void;
 }
 
-export function TaskItem({ name, onRemove }: Props){
-  
+export function TaskItem({ item, onRemove, onMarkDone }: Props){
   return(
     <View style={styles.container}>
-        <TouchableOpacity
-            style={styles.buttonCheckTask}
-            onPress={onRemove}
-            >
-            <Text style={styles.buttonText}> ✅ </Text>
-        </TouchableOpacity>
-        <Text style={styles.name}>{name}</Text>
-        <TouchableOpacity
-            style={styles.button}
-            onPress={onRemove}
-            >
-            <Text style={styles.buttonText}> - </Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonCheckTask}
+        onPress={onMarkDone}
+      >
+        <Text style={styles.buttonText}>
+          {item.done ? '☑' : '🙈'}
+        </Text>
+      </TouchableOpacity>
+      <Text style={item.done ? styles.titleDone : styles.title}>{item.title}</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={onRemove}
+      >
+        <Text style={styles.buttonText}>
+          <Image source={require('../../../assets/trash.png')} />
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }
